@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Список задач</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h2>Список задач</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Описание</th>
+                <th>Статус</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="task : ${tasks}" th:class="${task.status} ? 'completed' : ''">
+                <td th:text="${task.id}"></td>
+                <td th:text="${task.title}"></td>
+                <td th:text="${task.description}"></td>
+                <td>
+                    <form th:action="@{/tasks/updateStatus/{id}(id=${task.id})}" method="post">
+                        <input type="checkbox" name="status" th:checked="${task.status}" onchange="this.form.submit()" />
+                    </form>
+                </td>
+                <td>
+                    <a th:href="@{/tasks/edit/{id}(id=${task.id})}" class="btn btn-primary">Редактировать</a>
+                    <a th:href="@{/tasks/delete/{id}(id=${task.id})}" class="btn btn-danger">Удалить</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="/tasks/new" class="btn btn-success">Добавить задачу</a>
+</div>
+</body>
+</html>

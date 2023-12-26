@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Список списков задач</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h2>Список списков задач</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Название</th>
+            <th>Описание</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="taskList : ${taskLists}">
+            <td th:text="${taskList.id}"></td>
+            <td th:text="${taskList.title}"></td>
+            <td th:text="${taskList.description}"></td>
+            <td>
+                <a th:href="@{/tasklists/edit/{id}(id=${taskList.id})}" class="btn btn-primary">Редактировать</a>
+                <a th:href="@{/tasklists/delete/{id}(id=${taskList.id})}" class="btn btn-danger">Удалить</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="/tasklists/new" class="btn btn-success">Добавить список задач</a>
+</div>
+</body>
+</html>

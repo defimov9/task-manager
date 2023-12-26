@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Редактировать список задач</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h2>Редактировать список задач</h2>
+    <form th:action="@{/tasklists/update/{id}(id=${taskList.id})}" th:object="${taskList}" method="post">
+        <div class="form-group">
+            <label for="title">Название</label>
+            <input type="text" class="form-control" id="title" th:field="*{title}" placeholder="Введите название">
+        </div>
+        <div class="form-group">
+            <label for="description">Описание</label>
+            <textarea class="form-control" id="description" th:field="*{description}" placeholder="Введите описание"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Обновить</button>
+    </form>
+</div>
+</body>
+</html>
