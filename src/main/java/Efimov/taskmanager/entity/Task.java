@@ -1,10 +1,11 @@
 package Efimov.taskmanager.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -15,10 +16,13 @@ public class Task {
 
     private String title;
     private String description;
+    @Getter
     private Boolean status;
 
-    public Boolean getStatus() {
-        return status;
-    }
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
+    @ManyToMany(mappedBy = "tasks")
+    private Set<TaskList> taskLists = new HashSet<>();
 }

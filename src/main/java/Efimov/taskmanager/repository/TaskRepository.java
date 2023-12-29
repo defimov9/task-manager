@@ -1,9 +1,12 @@
 package Efimov.taskmanager.repository;
 
+import Efimov.taskmanager.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import Efimov.taskmanager.entity.Task;
 
-public interface TaskRepository extends JpaRepository<Task, Long> {
+import java.util.List;
 
+public interface TaskRepository extends JpaRepository<Task, Long> {
+    List<Task> findByUser(User user);
 }
 
