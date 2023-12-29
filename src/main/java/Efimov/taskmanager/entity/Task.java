@@ -23,6 +23,7 @@ public class Task {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany(mappedBy = "tasks")
-    private Set<TaskList> taskLists = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "tasklist_id")
+    private TaskList taskList;
 }

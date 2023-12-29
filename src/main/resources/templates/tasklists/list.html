@@ -36,7 +36,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="taskList : ${taskLists}">
+        <tr th:each="taskList : ${taskListPage}">
             <td th:text="${taskList.id}"></td>
             <td th:text="${taskList.title}"></td>
             <td th:text="${taskList.description}"></td>
@@ -47,6 +47,15 @@
         </tr>
         </tbody>
     </table>
+    <div th:if="${taskListPage != null}">
+        <ul class="pagination">
+
+            <li class="page-item" th:each="pageNum : ${#numbers.sequence(0, taskListPage.totalPages - 1)}" th:class="${pageNum == taskListPage.number} ? 'active' : ''">
+                <a class="page-link" th:href="@{/tasklists(page=${pageNum}, size=${taskListPage.size})}" th:text="${pageNum + 1}">1</a>
+            </li>
+
+        </ul>
+    </div>
     <a href="/tasklists/new" class="btn btn-success">Добавить список задач</a>
 </div>
 </body>

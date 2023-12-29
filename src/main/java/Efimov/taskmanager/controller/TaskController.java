@@ -6,6 +6,9 @@ import Efimov.taskmanager.repository.TaskListRepository;
 import Efimov.taskmanager.repository.TaskRepository;
 import Efimov.taskmanager.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -31,17 +34,22 @@ public class TaskController {
 
     // Просмотр всех задач
     @GetMapping
-    public String listTasks(Model model) {
+    public String listTasks(@RequestParam(defaultValue = "0") int page,
+                            @RequestParam(defaultValue = "10") int size,
+                            Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = authentication.getName();
 
         Optional<User> userOptional = userRepository.findByUsername(currentUserName);
-        if (userOptional.isPresent()) {
-            User currentUser = userOptional.get();
-            List<Task> tasks = taskRepository.findByUser(currentUser);
-            model.addAttribute("tasks", tasks);
+        if (userOptional.isEmpty()) {
+            // Обработка ситуации, когда пользователь не найден
+            return "redirect:/login"; // или другая логика
         }
+        User currentUser = userOptional.get();
 
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Task> taskPage = taskRepository.findByUser(currentUser, pageable);
+        model.addAttribute("taskPage", taskPage);
         return "tasks/list";
     }
 
